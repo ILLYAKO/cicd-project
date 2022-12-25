@@ -1,0 +1,8 @@
+node_modules
+jenkins_home
+
+.terraform
+
+.DS_Store
+
+.idea/*
