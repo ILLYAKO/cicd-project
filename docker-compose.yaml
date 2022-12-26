@@ -1,22 +1,49 @@
-version: '3'
+version: "3"
 services:
   frontend:
+    # image: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - mern-app
 
   backend:
+    # image: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - mern-app
+    depends_on:
+      - mongo
 
   nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    networks:
+      - mern-app
+    depends_on:
+      - frontend
 
   mongo:
-
-  
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - mern-app
+    volumes:
+      - mongo-data:/data/db
 
 networks:
   mern-app:
     driver: bridge
- 
 
 volumes:
   mongo-data:
     driver: local
-
-
