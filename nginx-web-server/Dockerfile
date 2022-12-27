@@ -1,7 +1,8 @@
 # build environment
 FROM node AS build
+RUN echo "Hello from Dockerfile"
 WORKDIR /app
-COPY package*.json ./
+COPY package.json ./
 RUN npm install
 COPY . ./
 # RUN npm test - if you want to test before to build
