@@ -22,8 +22,11 @@ services:
     depends_on:
       - mongo
 
-  nginx:
-    image: nginx
+  nginx-web-server:
+    # image: nginx
+    build:
+      context: ./
+      dockerfile: ./nginx-web-server/Dockerfile
     ports:
       - "80:80"
     networks:
