@@ -11,6 +11,16 @@ pipeline {
                 echo 'testing the application...'
             }
         }
+        stage("image") {
+            steps {
+                echo 'building the image...'
+            }
+        }        
+        stage("push") {
+            steps {
+                echo 'pushing the application...'
+            }
+        }
         stage("deploy") {
             steps {
                 echo 'deploying the application...'
