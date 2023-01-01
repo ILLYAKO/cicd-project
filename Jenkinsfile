@@ -4,6 +4,7 @@ pipeline {
         stage("verify tooling") {
             steps {
                 sh '''
+                    which docker
                     docker version
                     docker info
                     docker-compose version
