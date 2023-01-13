@@ -6,12 +6,6 @@ pipeline {
                 sh '''
                     hostname
                     curl --version
-                    // which docker
-                    // jq --version
-                    // docker version
-                    // docker info
-                    // docker-compose version
-
                 '''
             }
         }        
