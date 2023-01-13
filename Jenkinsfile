@@ -5,13 +5,7 @@ pipeline {
             steps {
                 sh '''
                     hostname
-                    which docker
                     curl --version
-                    jq --version
-                    docker version
-                    docker info
-                    docker-compose version
-
                 '''
             }
         }        
