@@ -18,11 +18,13 @@ pipeline {
         }        
         stage("build") {
             steps {
-                echo 'building the application...'
-                sh 'cd frontend'
-                sh 'pwd'
-                sh 'npm init'
-
+                echo 'building the application start'
+                dir("${env.WORKSPACE}/frontend"){
+                    sh "pwd"
+                    echo 'Directory was changed'
+                    sh 'npm init'
+                    }
+                echo 'building the application end'
             }
         }
         stage("test") {
