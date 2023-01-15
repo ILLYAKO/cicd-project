@@ -12,15 +12,14 @@ pipeline {
                     ls -la
                     pwd
                 '''
-                echo '$HOME'
-                echo 'verify tooling start'
+                echo 'verify tooling end'
 
             }
         }        
         stage("build") {
             steps {
                 echo 'building the application...'
-                sh 'cd /var/jenkins/workspace/cicd-project_development/frontend'
+                sh 'cd frontend'
                 sh 'pwd'
                 sh 'npm init'
 
