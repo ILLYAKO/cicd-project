@@ -22,7 +22,8 @@ pipeline {
                 dir("${env.WORKSPACE}/frontend"){
                     sh "pwd"
                     echo 'Directory was changed'
-                    sh 'npm init'
+                    sh 'npm install'
+                    sh 'npm start'
                     }
                 echo 'building the application end'
             }
