@@ -3,6 +3,7 @@ pipeline {
     stages {
         stage("verify tooling") {
             steps {
+                echo 'verify tooling start'
                 sh '''
                     hostname
                     curl --version
@@ -11,7 +12,9 @@ pipeline {
                     ls -la
                     pwd
                 '''
-                echo $HOME
+                echo '$HOME'
+                echo 'verify tooling start'
+
             }
         }        
         stage("build") {
