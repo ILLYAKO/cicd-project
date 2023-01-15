@@ -6,6 +6,8 @@ pipeline {
                 sh '''
                     hostname
                     curl --version
+                    cd /var/jenkins/workspace/cicd-project_development
+                    ls -la
                 '''
             }
         }        
