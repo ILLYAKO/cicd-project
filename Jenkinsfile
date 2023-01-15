@@ -6,16 +6,21 @@ pipeline {
                 sh '''
                     hostname
                     curl --version
-                    cd /var/jenkins/workspace/cicd-project_development
+                    node --version
+                    npm --version
                     ls -la
                     pwd
                 '''
+                echo $HOME
             }
         }        
         stage("build") {
             steps {
                 echo 'building the application...'
+                sh 'cd /var/jenkins/workspace/cicd-project_development/frontend'
                 sh 'pwd'
+                sh 'npm init'
+
             }
         }
         stage("test") {
