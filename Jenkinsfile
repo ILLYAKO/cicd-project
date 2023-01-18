@@ -1,8 +1,6 @@
 pipeline {
     agent any
-    environment {
-        CI= 'true'
-    }
+
     stages {
         stage("verify tooling") {
             steps {
@@ -35,8 +33,8 @@ pipeline {
                 echo 'testing the application...'
                 dir("${env.WORKSPACE}/jenkins/script/test.sh"){
                     sh "pwd"
-                    echo 'Directory was changed and script run'
-
+                    echo 'Directory was changed'
+                    sh 'npm install'
                     }
                 sh 'pwd'
             }
