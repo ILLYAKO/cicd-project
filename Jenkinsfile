@@ -9,6 +9,7 @@ pipeline {
                     curl --version
                     node --version
                     npm --version
+                    docker --version
                     ls -la
                     pwd
                 '''
@@ -23,6 +24,7 @@ pipeline {
                     sh "pwd"
                     echo 'Directory was changed'
                     sh 'npm install'
+                    echo 'NPM installed'
                     }
                 echo 'building the application end'
             }
@@ -43,13 +45,26 @@ pipeline {
         }
         stage("image") {
             steps {
-                echo 'building the image...'
+                echo 'building the image start'
+                dir("${env.WORKSPACE}/nginx-web-server"){
+                    sh "pwd"
+                    sh 'docker build -t illyako/cicd-nginx-web-server:latest -f Dockerfile .'
+                    sh 'docker images'
+                    }
                 sh 'pwd'
             }
         }        
         stage("push") {
             steps {
                 echo 'pushing the application...'
+                // withCredentials(
+                //     [usernamePassword(credentialsId: 'dockerHub',
+                //     passwordVariable: 'dockerHubPassword',
+                //     usernameVariable: 'dockerHubUser')]
+                // ) {
+        	    //     sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                //     sh 'docker push shanem/spring-petclinic:latest'
+                // }
                 sh 'pwd'
             }
         }
