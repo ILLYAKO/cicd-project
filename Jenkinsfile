@@ -33,9 +33,9 @@ pipeline {
                 dir("${env.WORKSPACE}/frontend"){
                     sh "pwd"
                     echo 'Directory was changed'
-                    sh "chmod u+x ${env.WORKSPACE}/frontend/test/test.sh"
-                    sh "ls -la ${env.WORKSPACE}/frontend/test"
-                    sh "${env.WORKSPACE}/frontend/test/test.sh"
+                    sh "chmod u+x ./test/test.sh"
+                    sh "ls -la ./test"
+                    sh "./test/test.sh"
                     }
                 echo 'testing the application end'
                 sh 'pwd'
