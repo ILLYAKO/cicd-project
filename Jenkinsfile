@@ -30,7 +30,6 @@ pipeline {
         stage("test") {
             steps {
                 echo 'testing the application...'
-                
                 sh 'pwd'
             }
         }
@@ -39,7 +38,7 @@ pipeline {
                 echo 'building the image...'
                 sh 'pwd'
             }
-        }        l
+        }        
         stage("push") {
             steps {
                 echo 'pushing the application...'
