@@ -48,6 +48,7 @@ pipeline {
                 echo 'building the image start'
                 dir("${env.WORKSPACE}/nginx-web-server"){
                     sh "pwd"
+                    sh 'systemctl start docker'
                     sh 'docker build -t illyako/cicd-nginx-web-server:latest -f Dockerfile .'
                     sh 'docker images'
                     }
