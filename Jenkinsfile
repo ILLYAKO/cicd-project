@@ -29,7 +29,11 @@ pipeline {
         }
         stage("test") {
             steps {
-                echo 'testing the application...'
+                echo 'testing the application start'
+                sh 'chmod u+x ./jenkins/scripts/test.sh'
+                sh 'ls -la ./jenkins/scripts'
+                sh './jenkins/scripts/test.sh'
+                echo 'testing the application end'
                 sh 'pwd'
             }
         }
