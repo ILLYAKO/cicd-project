@@ -36,36 +36,37 @@ pipeline {
                     sh "pwd"
                     echo 'Directory was changed'
                     sh "chmod u+x ./test/test.sh"
-                    sh "ls -la ./test"
                     sh "./test/test.sh"
                     }
                 echo 'testing the application end'
-                sh 'pwd'
             }
         }
         stage("image") {
             steps {
                 echo 'building the image start'
-                dir("${env.WORKSPACE}/nginx-web-server"){
-                    sh "pwd"
-                    sh 'systemctl start docker'
-                    sh 'docker build -t illyako/cicd-nginx-web-server:latest -f Dockerfile .'
-                    sh 'docker images'
-                    }
-                sh 'pwd'
+                sh "pwd"
+                sh 'docker build -t illyako/cicd-nginx-web-server:latest -f nginx-web-server/Dockerfile .'
+                sh 'docker images'
+                echo 'building the image end'
             }
         }        
         stage("push") {
             steps {
                 echo 'pushing the application...'
-                // withCredentials(
-                //     [usernamePassword(credentialsId: 'dockerHub',
-                //     passwordVariable: 'dockerHubPassword',
-                //     usernameVariable: 'dockerHubUser')]
-                // ) {
-        	    //     sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                //     sh 'docker push shanem/spring-petclinic:latest'
-                // }
+                echo "${env.WORKSPACE}"
+                echo "${env.dockerHubUser}"
+                echo "${env.dockerHubPassword}"
+                
+                withCredentials(
+                    [usernamePassword(credentialsId: 'dockerHub',
+                    passwordVariable: 'dockerHubPassword',
+                    usernameVariable: 'dockerHubUser')]
+                ) {
+                    echo "${env.dockerHubUser}"
+                    echo "${env.dockerHubPassword}"
+        	        sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                    sh 'docker push illyako/cicd-nginx-web-server:latest'
+                }
                 sh 'pwd'
             }
         }
