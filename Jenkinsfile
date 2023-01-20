@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    environment {
-        CI= 'true'
-    }
     stages {
         stage("verify tooling") {
             steps {
@@ -12,6 +9,7 @@ pipeline {
                     curl --version
                     node --version
                     npm --version
+                    docker --version
                     ls -la
                     pwd
                 '''
@@ -26,31 +24,48 @@ pipeline {
                     sh "pwd"
                     echo 'Directory was changed'
                     sh 'npm install'
+                    echo 'NPM installed'
                     }
                 echo 'building the application end'
             }
         }
         stage("test") {
             steps {
-                echo 'testing the application...'
-                dir("${env.WORKSPACE}/jenkins/script/test.sh"){
+                echo 'testing the application start'
+                dir("${env.WORKSPACE}/frontend"){
                     sh "pwd"
-                    echo 'Directory was changed and script run'
-
+                    echo 'Directory was changed'
+                    sh "chmod u+x ./test/test.sh"
+                    sh "./test/test.sh"
                     }
-                sh 'pwd'
+                echo 'testing the application end'
             }
         }
         stage("image") {
             steps {
-                echo 'building the image...'
-                sh 'pwd'
+                echo 'building the image start'
+                sh "pwd"
+                sh 'docker build -t illyako/cicd-nginx-web-server:latest -f nginx-web-server/Dockerfile .'
+                sh 'docker images'
+                echo 'building the image end'
             }
-        }        l
+        }        
         stage("push") {
             steps {
-                echo 'pushing the application...'
-                sh 'pwd'
+                echo 'pushing the application start'
+                echo "${env.WORKSPACE}"
+                echo "${env.dockerHubUser}"
+                echo "${env.dockerHubPassword}"
+                
+                withCredentials(
+                    [usernamePassword(credentialsId: 'dockerHub',
+                    passwordVariable: 'dockerHubPassword',
+                    usernameVariable: 'dockerHubUser')]
+                ) {
+        	        sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                    sh 'docker push illyako/cicd-nginx-web-server:latest'
+                }
+                echo 'pushing the application end'
             }
         }
         stage("deploy") {
