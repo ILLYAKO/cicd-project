@@ -52,7 +52,7 @@ pipeline {
         }        
         stage("push") {
             steps {
-                echo 'pushing the application...'
+                echo 'pushing the application start'
                 echo "${env.WORKSPACE}"
                 echo "${env.dockerHubUser}"
                 echo "${env.dockerHubPassword}"
@@ -62,12 +62,10 @@ pipeline {
                     passwordVariable: 'dockerHubPassword',
                     usernameVariable: 'dockerHubUser')]
                 ) {
-                    echo "${env.dockerHubUser}"
-                    echo "${env.dockerHubPassword}"
         	        sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
                     sh 'docker push illyako/cicd-nginx-web-server:latest'
                 }
-                sh 'pwd'
+                echo 'pushing the application end'
             }
         }
         stage("deploy") {
