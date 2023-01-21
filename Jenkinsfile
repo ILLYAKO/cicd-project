@@ -14,14 +14,12 @@ pipeline {
                     pwd
                 '''
                 echo 'verify tooling end'
-
             }
         }        
         stage("build") {
             steps {
                 echo 'building the application start'
                 dir("${env.WORKSPACE}/frontend"){
-                    sh "pwd"
                     echo 'Directory was changed'
                     sh 'npm install'
                     echo 'NPM installed'
@@ -33,7 +31,6 @@ pipeline {
             steps {
                 echo 'testing the application start'
                 dir("${env.WORKSPACE}/frontend"){
-                    sh "pwd"
                     echo 'Directory was changed'
                     sh "chmod u+x ./test/test.sh"
                     sh "./test/test.sh"
@@ -44,7 +41,6 @@ pipeline {
         stage("image") {
             steps {
                 echo 'building the image start'
-                sh "pwd"
                 sh 'docker build -t illyako/cicd-nginx-web-server:latest -f nginx-web-server/Dockerfile .'
                 sh 'docker images'
                 echo 'building the image end'
@@ -52,11 +48,7 @@ pipeline {
         }        
         stage("push") {
             steps {
-                echo 'pushing the application start'
-                echo "${env.WORKSPACE}"
-                echo "${env.dockerHubUser}"
-                echo "${env.dockerHubPassword}"
-                
+                echo 'pushing the application start'                
                 withCredentials(
                     [usernamePassword(credentialsId: 'dockerHub',
                     passwordVariable: 'dockerHubPassword',
@@ -71,7 +63,6 @@ pipeline {
         stage("deploy") {
             steps {
                 echo 'deploying the application...'
-                sh 'pwd'
             }
         }
     }
