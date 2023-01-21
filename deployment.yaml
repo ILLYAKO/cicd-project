@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-deployment
+  labels:
+    app: orderlabel
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: orderlabel
+  template:
+    metadata:
+      labels:
+        app: orderlabel
+    spec:
+      containers:
+        - name: orderapi
+          image: nginx
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 80
